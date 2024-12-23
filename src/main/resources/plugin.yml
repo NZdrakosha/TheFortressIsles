@@ -1,0 +1,7 @@
+name: TheFortressIsles
+version: '${version}'
+main: me.drakosha.thefortressisles.TheFortressIsles
+authors: [Iamdany00]
+commands:
+  admin:
+
