@@ -3,6 +3,7 @@ package game.gui;
 import game.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -22,27 +23,35 @@ public class GuiUpdateItem implements InventoryHolder {
         ItemMeta meta = barrier.getItemMeta();
         meta.setDisplayName("Пусто");
         barrier.setItemMeta(meta);
-        int price = ConfigManager.getPriceUpdate(0);
 
+
+        ItemStack item4 = player.getInventory().getItem(0);
+        int priceItem4 = item4.getEnchantmentLevel(Enchantment.DAMAGE_ALL) == 0 ? ConfigManager.getPriceUpdate(1) :
+                ConfigManager.getPriceUpdate(item4.getEnchantmentLevel(Enchantment.DAMAGE_ALL) + 1);
+        item4.setItemMeta(setLoreUpdateItem(item4, priceItem4));
+
+
+        ItemStack item5 = player.getInventory().getItem(1);
+        int priceItem5 = item5.getEnchantmentLevel(Enchantment.DIG_SPEED) == 0 ? ConfigManager.getPriceUpdate(1) :
+                ConfigManager.getPriceUpdate(item5.getEnchantmentLevel(Enchantment.DIG_SPEED) + 1);
+        item5.setItemMeta(setLoreUpdateItem(item5, priceItem5));
+
+        ItemStack item6 = player.getInventory().getItem(2);
+        int priceItem6 = item6.getEnchantmentLevel(Enchantment.DIG_SPEED) == 0 ? ConfigManager.getPriceUpdate(1) :
+                ConfigManager.getPriceUpdate(item6.getEnchantmentLevel(Enchantment.DIG_SPEED) + 1);
+        item6.setItemMeta(setLoreUpdateItem(item6, priceItem6));
 
         ItemStack[] armorPlayer = player.getPlayer().getEquipment().getArmorContents();
         for (int i = 0; i < player.getPlayer().getEquipment().getArmorContents().length; i++) {
-            if (armorPlayer[i] == null) {
-                invSell.setItem(i, barrier);
-            }else {
+            if (armorPlayer[i] == null)invSell.setItem(i, barrier);
+            else {
                 ItemStack armor = armorPlayer[i];
-                armor.setItemMeta(setLoreUpdateItem(armor, price));
+                int priceArmor = armor.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL) == 0 ? ConfigManager.getPriceUpdate(1) :
+                        ConfigManager.getPriceUpdate(armor.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL) + 1);
+                armor.setItemMeta(setLoreUpdateItem(armor, priceArmor));
                 invSell.setItem(i, armor);
             }
         }
-        ItemStack item4 = player.getInventory().getItem(0);
-        item4.setItemMeta(setLoreUpdateItem(item4, price));
-
-        ItemStack item5 = player.getInventory().getItem(1);
-        item5.setItemMeta(setLoreUpdateItem(item5, price));
-
-        ItemStack item6 = player.getInventory().getItem(2);
-        item6.setItemMeta(setLoreUpdateItem(item6, price));
         invSell.setItem(4, item4);
         invSell.setItem(5, item5);
         invSell.setItem(6, item6);

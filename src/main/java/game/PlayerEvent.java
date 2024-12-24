@@ -23,6 +23,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.inventory.CraftingInventory;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -339,21 +340,10 @@ public class PlayerEvent implements Listener {
             return;
         }
         if (currentItem.getType() != Material.AIR) {
-            if (isPickaxe(currentItem)) {
-                updateItemHotBar(currentItem, player, 1);
-                return;
-            }
-            if (isAxe(currentItem)) {
-                updateItemHotBar(currentItem, player, 2);
-                return;
-            }
-            if (isSword(currentItem)){
-                setUpdateItemArmorAndSword(currentItem, player);
-            }
-            if (isBoots(currentItem) || isLeggings(currentItem) || isChestplate(currentItem) || isHelmet(currentItem)) {
-                setUpdateItemArmorAndSword(currentItem, player);
-                return;
-            }
+            if (isPickaxe(currentItem)) { updateItemHotBar(currentItem, player, 1); return; }
+            if (isAxe(currentItem)) { updateItemHotBar(currentItem, player, 2); return; }
+            if (isSword(currentItem)){ setUpdateItemArmorAndSword(currentItem, player); return; }
+            if (isBoots(currentItem) || isLeggings(currentItem) || isChestplate(currentItem) || isHelmet(currentItem)) { setUpdateItemArmorAndSword(currentItem, player); return; }
             player.sendMessage("Нельзя прокачать начальный предмет");
 
         }

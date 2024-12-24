@@ -44,7 +44,7 @@ public class SpawnMob{
         zombie.setNoAI(false);
         zombie.setBaby(false);
         zombie.setHealth(6.0f);
-        zombie.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.1);
+        zombie.getAttributeInstance(GenericAttributes.MOVEMENT_SPEED).setValue(0.2);
 
 
         Lighthouse lighthouse = new Lighthouse();

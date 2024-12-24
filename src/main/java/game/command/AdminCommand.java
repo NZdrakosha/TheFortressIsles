@@ -34,14 +34,12 @@ public class AdminCommand implements CommandExecutor {
         if (!(sender instanceof Player)) {
             return false;
         }
-        if (args.length < 1) {
-            return false;
-        }
+        if (args.length < 1) return false;
+
         Player player = (Player) sender;
         if (args[0].equalsIgnoreCase("start") && player.hasPermission("op")) {
-            if (activeGame) {
-                return false;
-            }
+            if (activeGame) return false;
+
             activeGame = true;
 
             spawnNpcUpdate();
@@ -57,9 +55,8 @@ public class AdminCommand implements CommandExecutor {
             player.sendMessage("Здоровье маяка = " + Lighthouse.getHealth(activeTeam.get(player.getUniqueId())));
         }
         if (args[0].equalsIgnoreCase("team")) {
-            if (!activeGame){
-                return false;
-            }
+            if (!activeGame) return false;
+
             InventorySelectTeam inventory = new InventorySelectTeam();
             player.openInventory(inventory.getInventory());
             return true;
@@ -137,9 +134,7 @@ public class AdminCommand implements CommandExecutor {
 
 
                     player.sendMessage("До начала игры " + second + " секунд");
-                    if (second <= 5) {
-                        player.sendTitle(String.valueOf(second), null, 10, 100, 10);
-                    }
+                    if (second <= 5) player.sendTitle(String.valueOf(second), null, 10, 100, 10);
 
                     if (second <= 0) {
                         player.sendTitle("Игра началась", null, 10, 100, 10);

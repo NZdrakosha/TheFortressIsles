@@ -72,25 +72,28 @@ public class UpdateItem {
 
         static void updateItemHotBar(ItemStack item, Player player, int index) {
             double playerBalance = balance.get(player.getUniqueId());
+
             int priseKey;
+            int priceUpdate;
+            int priceUpdateLore;
             if (item.getEnchantments().isEmpty()) {
-                priseKey = 1;
+                priceUpdate = ConfigManager.getPriceUpdate(1);
+                priceUpdateLore = ConfigManager.getPriceUpdate(2);
             } else {
                 priseKey = item.getEnchantmentLevel(Enchantment.DIG_SPEED);
+                priceUpdate = ConfigManager.getPriceUpdate(priseKey);
+                priceUpdateLore = ConfigManager.getPriceUpdate(priseKey + 1);
             }
 
-            int priseUpdate = ConfigManager.getPriceUpdate(priseKey);
             Bukkit.getLogger().info("Player balance = " + playerBalance);
-            Bukkit.getLogger().info("Prise update = " + priseUpdate);
-            if (playerBalance != 0 && playerBalance >= priseUpdate) {
-                ItemMeta meta = item.getItemMeta();
-                meta.setLore(null);
-                item.setItemMeta(meta);
+            Bukkit.getLogger().info("Prise update = " + priceUpdate);
+            if (playerBalance != 0 && playerBalance >= priceUpdate) {
 
-                player.getInventory().setItem(index, updatePicaxeAndAxe(item, priseUpdate));
-                double moneyPutMap = balance.get(player.getUniqueId()) - priseUpdate;
+                player.getInventory().setItem(index, updatePicaxeAndAxe(item, priceUpdateLore));
+
+                double moneyPutMap = balance.get(player.getUniqueId()) - priceUpdate;
                 balance.put(player.getUniqueId(), moneyPutMap);
-                player.sendMessage("-" + priseUpdate + " осталось = " + moneyPutMap);
+                player.sendMessage("-" + priceUpdate + " осталось = " + moneyPutMap);
                 player.setLevel((int) moneyPutMap);
             }else {
                 player.sendMessage("Недостаточно средств");
@@ -98,46 +101,45 @@ public class UpdateItem {
         }
         static void setUpdateItemArmorAndSword(ItemStack item, Player player) {
             double playerBalance = balance.get(player.getUniqueId());
-            int priseKey;
+
+            int priceKey;
+            int priceUpdate;
+            int priceUpdateLore;
             if (item.getEnchantments().isEmpty()) {
-                priseKey = 0;
+                priceUpdateLore = ConfigManager.getPriceUpdate(2);
+                priceUpdate = ConfigManager.getPriceUpdate(1);
+            }  else {
+                priceKey = item.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL) + 1;
+                priceUpdateLore = ConfigManager.getPriceUpdate(priceKey + 1);
+                priceUpdate = ConfigManager.getPriceUpdate(priceKey);
             }
-            if (item.getType() == Material.IRON_SWORD){
-                priseKey = item.getEnchantmentLevel(Enchantment.DAMAGE_ALL);
+            if (isSword(item)){
+                priceKey = item.getEnchantmentLevel(Enchantment.DAMAGE_ALL) + 1;
+                priceUpdateLore = ConfigManager.getPriceUpdate(priceKey + 1);
+                priceUpdate = ConfigManager.getPriceUpdate(priceKey);
             }
-            else {
-                priseKey = item.getEnchantmentLevel(Enchantment.PROTECTION_ENVIRONMENTAL);
-            }
-            int priseUpdate = ConfigManager.getPriceUpdate(priseKey);
             ItemMeta meta = item.getItemMeta();
-            meta.setLore(null);
             item.setItemMeta(meta);
 
 
             Bukkit.getLogger().info("Player balance = " + playerBalance);
-            Bukkit.getLogger().info("Prise update = " + priseUpdate);
-            if (playerBalance != 0 && playerBalance >= priseUpdate) {
+            Bukkit.getLogger().info("Prise update = " + priceUpdate);
+            if (playerBalance != 0 && playerBalance >= priceUpdate) {
 
-                if (isHelmet(item)){
-                    player.getInventory().setHelmet(updateItemArmor(item, priseUpdate));
-                }
-                else if (isChestplate(item)){
-                    player.getInventory().setChestplate(updateItemArmor(item, priseUpdate));
-                }
-                else if(isLeggings(item)){
-                    player.getInventory().setLeggings(updateItemArmor(item, priseUpdate));
-                }
-                else if (isBoots(item)){
-                    player.getInventory().setBoots(updateItemArmor(item, priseUpdate));
-                }
-                if (isSword(item)){
-                    player.getInventory().setItem(0, updateSword(item, priseUpdate));
-                }
+                if (isHelmet(item)) player.getInventory().setHelmet(updateItemArmor(item, priceUpdateLore));
+                else if (isChestplate(item)) player.getInventory().setChestplate(updateItemArmor(item, priceUpdateLore));
+                else if(isLeggings(item)) player.getInventory().setLeggings(updateItemArmor(item, priceUpdateLore));
+                else if (isBoots(item)) player.getInventory().setBoots(updateItemArmor(item, priceUpdateLore));
+                if (isSword(item)) player.getInventory().setItem(0, updateSword(item, priceUpdateLore));
 
-                double moneyPutMap = balance.get(player.getUniqueId()) - priseUpdate;
+
+                double moneyPutMap = balance.get(player.getUniqueId()) - priceUpdate;
                 balance.put(player.getUniqueId(), moneyPutMap);
-                player.sendMessage("-" + priseUpdate + " осталось = " + moneyPutMap);
+                player.sendMessage("-" + priceUpdate + " осталось = " + moneyPutMap);
                 player.setLevel((int) moneyPutMap);
+                player.updateInventory();
+
+
             }else {
                 player.sendMessage("Недостаточно средств");
             }

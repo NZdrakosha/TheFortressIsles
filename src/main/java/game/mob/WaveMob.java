@@ -13,6 +13,7 @@ public class WaveMob {
     public static void wave1(Player p){
         if (waveCount == 1){
             teamSpawnMob();
+            teamSpawnMob();
             waveCount++;
         }
             waveMobSpawn(deley, waveCount);
@@ -24,17 +25,23 @@ public class WaveMob {
             if (wave == 2){
                 teamSpawnMob();
                 teamSpawnMob();
+                teamSpawnMob();
             }
             else if (wave == 3){
                 teamSpawnMob();
                 teamSpawnMob();
                 teamSpawnMob();
+                teamSpawnMob();
+
             }
             else if (wave == 4){
                 teamSpawnMob();
                 teamSpawnMob();
                 teamSpawnMob();
                 teamSpawnMob();
+                teamSpawnMob();
+                teamSpawnMob();
+
             }
             deley += 30;
             waveCount++;
