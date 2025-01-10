@@ -11,11 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.awt.*;
-import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Random;
+import java.util.UUID;
 
 import static game.Game.*;
 import static game.mine.Mine.*;
@@ -27,13 +24,12 @@ public class AdminCommand implements CommandExecutor {
     private static ArrayList<Player> listTeamEquippedPlayer = new ArrayList<>();
     private static boolean activeTimer = false;
     public static boolean activeGame = false;
-    static Random random = new Random();
+    public static boolean startGame = false;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
-            return false;
-        }
+        if (!(sender instanceof Player)) return false;
+
         if (args.length < 1) return false;
 
         Player player = (Player) sender;
@@ -42,8 +38,8 @@ public class AdminCommand implements CommandExecutor {
 
             activeGame = true;
 
-            spawnNpcUpdate();
-            spawnNpcSeller();
+            spawnNPC("Продажа");
+            spawnNPC("Прокачка");
             fillSuperMine();
             teleportPlayerSpawnLocation();
             fillMine();
@@ -51,9 +47,8 @@ public class AdminCommand implements CommandExecutor {
             startTimerForRepairMine();
             return true;
         }
-        if (args[0].equalsIgnoreCase("health")){
-            player.sendMessage("Здоровье маяка = " + Lighthouse.getHealth(activeTeam.get(player.getUniqueId())));
-        }
+        if (args[0].equalsIgnoreCase("health")) player.sendMessage("Здоровье маяка = " + Lighthouse.getHealth(activeTeam.get(player.getUniqueId())));
+
         if (args[0].equalsIgnoreCase("team")) {
             if (!activeGame) return false;
 
@@ -61,26 +56,13 @@ public class AdminCommand implements CommandExecutor {
             player.openInventory(inventory.getInventory());
             return true;
         }
-
-        if (args[0].equalsIgnoreCase("copy")) {
-
-            double x = player.getLocation().getX();
-            double y = player.getLocation().getY();
-            double z = player.getLocation().getZ();
-
-            String coords = String.format(Locale.ENGLISH, "%.2f, %.2f, %.2f", x, y, z);
-
-            try {
-                Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(coords), null);
-
-                player.sendMessage("§aВаши координаты скопированы в буфер обмена: " + coords);
-            } catch (Exception e) {
-                player.sendMessage("§cОшибка при копировании координат.");
-                e.printStackTrace();
-            }
-
-
+        if (args[0].equalsIgnoreCase("basetp")) {
+                String colorTeamPlayer = activeTeam.get(player.getUniqueId());
+                Location baseLocation = locationSpawnPlayer.get(colorTeamPlayer);
+                player.teleport(baseLocation);
+                return true;
         }
+
         return true;
     }
     private static void teleportPlayerSpawnLocation(){
@@ -93,9 +75,8 @@ public class AdminCommand implements CommandExecutor {
     }
 
     private static void checkTeamPlayer() {
-        if (activeTimer) {
-            return;
-        }
+        if (activeTimer) return;
+
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -115,9 +96,8 @@ public class AdminCommand implements CommandExecutor {
                     timerForStartGame();
                     activeTimer = true;
                     cancel();
-                } else {
-                    Bukkit.getLogger().info("Не все игроки выбрали команду.");
                 }
+
             }
         }.runTaskTimer(TheFortressIsles.getInstance(), 0L,20L);
     }
@@ -131,8 +111,6 @@ public class AdminCommand implements CommandExecutor {
 
                 @Override
                 public void run() {
-
-
                     player.sendMessage("До начала игры " + second + " секунд");
                     if (second <= 5) player.sendTitle(String.valueOf(second), null, 10, 100, 10);
 
@@ -143,22 +121,25 @@ public class AdminCommand implements CommandExecutor {
                         cancel();
                     }
                     second--;
+
                 }
             }.runTaskTimer(TheFortressIsles.getInstance(), 0L, 20L);
         }
     }
     private static void teleportPlayerBase() {
-        for (String color : teamColor) {
+        startGame = true;
+        startBossBarTimer(120);
+        for (UUID player : activeTeam.keySet()) {
+            String color = activeTeam.get(player);
             Player p = Bukkit.getPlayer(colorTeamPlayer.get(color));
             if (p != null) {
                 Location spawnLocation = locationSpawnPlayer.get(color);
                 spawnLocation.setYaw(90.0f) ;
-                if (spawnLocation != null && spawnLocation.getWorld() != null) {
+                if (spawnLocation.getWorld() != null) {
                     p.teleport(spawnLocation);
-                    startBossBarTimer(60, p, "До начала волны");
                     p.setBedSpawnLocation(spawnLocation, true);
                 }
             }
         }
-    }
+}
     }

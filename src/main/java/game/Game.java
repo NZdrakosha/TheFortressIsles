@@ -11,16 +11,17 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static game.ConfigManager.getColor;
 import static game.gui.InventorySelectTeam.glassList;
 import static game.mine.Mine.*;
 import static game.mob.CreateEntity.*;
-import static game.mob.WaveMob.wave1;
+import static game.mob.WaveMob.wave;
 
 public class Game {
-    private static BossBar bossBar;
+    private static BossBar bossBar = Bukkit.createBossBar("До начала волны", BarColor.WHITE, BarStyle.SOLID);
     public static ArrayList<Location> locationSign = new ArrayList<>();
     public static Map<UUID, Double> balance = new HashMap<>();
 
@@ -34,20 +35,16 @@ public class Game {
     public static Map<String, AtomicInteger> seconds = new HashMap<>();
 
 
-    public static Map<UUID, String> activeTeam = new HashMap<>();
-    public static Map<String, Boolean> canRepairMine = new HashMap<>();
+    public static Map<UUID, String> activeTeam = new ConcurrentHashMap<>();
+    public static Map<String, Boolean> canRepairMine = new ConcurrentHashMap<>();
 
 
     public static void giveStartLot(Player player){
         player.setGameMode(GameMode.SURVIVAL);
-        player.setSaturation(20.0f);
-        player.setFoodLevel(20);
         player.getInventory().clear();
         player.getInventory().setItem(0, giveUnbreakableItem(new ItemStack(Material.WOOD_SWORD)));
         player.getInventory().setItem(1, giveUnbreakableItem(new ItemStack(Material.WOOD_PICKAXE)));
         player.getInventory().setItem(2, giveUnbreakableItem(new ItemStack(Material.STONE_AXE)));
-        player.setExp(0);
-        player.setLevel(0);
 
         player.getEnderChest().clear();
     }
@@ -56,9 +53,8 @@ public class Game {
             for (String color : teamColor) {
                 if (!canRepairMine.get(color)) {
                     seconds.get(color).getAndDecrement();
-                    if (minute.get(color).get() == 0 && seconds.get(color).get() == 0) {
-                        canRepairMine.put(color, true);
-                    }
+                    if (minute.get(color).get() == 0 && seconds.get(color).get() == 0) canRepairMine.put(color, true);
+
                     if (seconds.get(color).get() == 0 && minute.get(color).get() != 0) {
                         minute.get(color).getAndDecrement();
                         seconds.get(color).set(59);
@@ -116,18 +112,14 @@ public class Game {
     }
 
     public static int getAmountItem(ItemStack item, Player player) {
-        if (item == null || player == null) {
-            return 0;
-        }
+        if (item == null || player == null) return 0;
+
         int count = 0;
         for (ItemStack itemStack : player.getInventory().getContents()) {
-            if (itemStack == null || itemStack.getType() == Material.AIR){
-                continue;
-            }
+            if (itemStack == null || itemStack.getType() == Material.AIR) continue;
 
-            if (item.getType() == itemStack.getType()) {
-                count += itemStack.getAmount();
-            }
+
+            if (item.getType() == itemStack.getType()) count += itemStack.getAmount();
         }
         return count;
     }
@@ -145,17 +137,14 @@ public class Game {
                     remaining -= stackAmount;
                 }
 
-                if (remaining <= 0) {
-                    break;
-                }
+                if (remaining <= 0) break;
+
             }
         }
     }
 
     public static double getMoneyGive(ItemStack item) {
-        if (item == null) {
-            return 0.0;
-        }
+        if (item == null) return 0.0;
 
         Material type = item.getType();
         double num = 0;
@@ -171,31 +160,28 @@ public class Game {
 
         return num;
     }
-    public static void startBossBarTimer(int seconds, Player player, String lore) {
-
-        bossBar = Bukkit.createBossBar(lore, BarColor.WHITE, BarStyle.SOLID);
-        bossBar.addPlayer(player);
-        bossBar.setVisible(true);
-
+    public static void startBossBarTimer(int seconds) {
+        for (Player p : Bukkit.getOnlinePlayers()){
+            if(!bossBar.getPlayers().contains(p)) {
+                bossBar.addPlayer(p);
+            }
+        }
 
         new BukkitRunnable() {
-            int ticksLeft = seconds * 20;
-            double progress = 1.0;
+                int ticksLeft = seconds * 20;
+                double progress = 1.0;
 
-
-            @Override
-            public void run() {
-                if (ticksLeft <= 0) {
+                @Override
+                public void run() {
+                    if (ticksLeft <= 0) {
                         bossBar.removeAll();
-                        wave1(player);
+                        wave();
                         cancel();
+                    }
+                    ticksLeft--;
+                    progress -= 1.0 / (seconds * 20);
+                    bossBar.setProgress(progress);
                 }
-                ticksLeft--;
-                progress -= 1.0 / (seconds * 20);
-                bossBar.setProgress(progress);
-            }
-        }.runTaskTimer(TheFortressIsles.getInstance(), 0L, 1L);
+            }.runTaskTimer(TheFortressIsles.getInstance(), 0L, 1L);
+        }
     }
-}
-
-

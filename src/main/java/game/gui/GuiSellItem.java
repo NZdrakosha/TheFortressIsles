@@ -22,42 +22,22 @@ public class GuiSellItem implements InventoryHolder {
         invSell.setItem(4, setItemMeta(new ItemStack(Material.COBBLESTONE)));
         invSell.setItem(5, setItemMeta(new ItemStack(Material.REDSTONE)));
         invSell.setItem(6, setItemMeta(new ItemStack(Material.INK_SACK, 1, (short) 4)));
-
-
-
-
     }
+
     @Override
     public Inventory getInventory() {
-        return invSell;
-    }
-    public static Inventory getInvSell(){
         return invSell;
     }
 
 
     private static ItemStack setItemMeta(ItemStack item){
-        if (item.getType() == Material.IRON_INGOT){
-            item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 20 монет"));
-        }
-        if (item.getType() == Material.LOG){
-            item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 15 монет"));
-        }
-        if (item.getType() == Material.COAL) {
-            item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 15 монет"));
-        }
-        if (item.getType() == Material.LEATHER){
-            item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 10 монет"));
-        }
-        if (item.getType() == Material.COBBLESTONE) {
-            item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 0.5 монеты"));
-        }
-        if (item.getType() == Material.INK_SACK && item.getDurability() == 4) {
-            item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 0.1 монета"));
-        }
-        if (item.getType() == Material.REDSTONE) {
-            item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 0.2 монеты"));
-        }
+        if (item.getType() == Material.IRON_INGOT)item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 20 монет"));
+        if (item.getType() == Material.LOG) item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 15 монет"));
+        if (item.getType() == Material.COAL) item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 15 монет"));
+        if (item.getType() == Material.LEATHER)item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 10 монет"));
+        if (item.getType() == Material.COBBLESTONE) item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 0.5 монеты"));
+        if (item.getType() == Material.INK_SACK && item.getDurability() == 4) item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 0.1 монета"));
+        if (item.getType() == Material.REDSTONE) item.setItemMeta(setLore(item, ChatColor.GRAY + "Цена продажи = 0.2 монеты"));
 
         return item;
     }

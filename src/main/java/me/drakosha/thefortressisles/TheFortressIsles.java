@@ -1,12 +1,13 @@
 package me.drakosha.thefortressisles;
 
+import game.InitializationMap;
 import game.command.AdminCommand;
 import game.PlayerEvent;
 import game.command.AdminTabCompleter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import static game.mine.Mine.initMap;
+
 
 
 public final class TheFortressIsles extends JavaPlugin {
@@ -16,7 +17,7 @@ public final class TheFortressIsles extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         instance = this;
-        initMap();
+        InitializationMap.init();
 
         registerCommands();
         registerEvent();

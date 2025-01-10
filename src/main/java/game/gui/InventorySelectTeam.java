@@ -48,9 +48,6 @@ public class InventorySelectTeam implements InventoryHolder {
     public Inventory getInventory() {
         return inv;
     }
-    public static Inventory getInv(){
-        return inv;
-    }
 
     private static ItemStack setItemMeta(String color, ItemStack itemStack) {
         if (equippedTeam.get(color) != null && colorTeamPlayer.get(color) != null) {

@@ -34,9 +34,8 @@ public class SpawnMob{
     }
 
     private static void spawnMob(String color, Location loc){
-        if (equippedTeam.get(color)){
+        if (!equippedTeam.get(color)) return;
 
-        }
         Location targetLocationTeam =  lighthouseLocationTeam.get(color);
         EntityZombie zombie = ((CraftZombie) targetLocationTeam.getWorld().spawnEntity(loc, EntityType.ZOMBIE)).getHandle();
 

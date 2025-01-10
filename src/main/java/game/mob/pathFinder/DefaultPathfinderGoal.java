@@ -7,21 +7,20 @@ import org.bukkit.Location;
 
 
 public abstract class DefaultPathfinderGoal extends PathfinderGoal {
-
     EntityInsentient entity;
-    Lighthouse goal;
+    Lighthouse lighthouse;
     int tick;
 
-    public DefaultPathfinderGoal(EntityInsentient entity, Lighthouse goal) {
+    public DefaultPathfinderGoal(EntityInsentient entity, Lighthouse lighthouse) {
         entity.targetSelector.a();
         this.entity = entity;
-        this.goal = goal;
+        this.lighthouse = lighthouse;
         this.tick = 0;
     }
 
-    protected Location getNearest(Location goal) {
-        if(entity.getBukkitEntity().getLocation().distanceSquared(goal) < 256) return goal;
-        else return getNearest(getMidpoint(entity.getBukkitEntity().getLocation(), goal));
+    protected Location getNearest(Location locationLighthouse) {
+        if(entity.getBukkitEntity().getLocation().distanceSquared(locationLighthouse) < 256) return locationLighthouse;
+        else return getNearest(getMidpoint(entity.getBukkitEntity().getLocation(), locationLighthouse));
     }
     public static Location getMidpoint(Location loc1, Location loc2) {
         if (!loc1.getWorld().equals(loc2.getWorld())) {

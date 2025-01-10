@@ -10,41 +10,31 @@ import static game.mob.SpawnMob.*;
 public class WaveMob {
     private static int deley = 200;
     private static int waveCount = 1;
-    public static void wave1(Player p){
+    public static void wave(){
         if (waveCount == 1){
-            teamSpawnMob();
             teamSpawnMob();
             waveCount++;
         }
             waveMobSpawn(deley, waveCount);
-                startBossBarTimer(deley, p, "До начала волны");
+            startBossBarTimer(deley);
     }
 
     private static void waveMobSpawn(int second, int wave){
         Bukkit.getScheduler().runTaskLater(TheFortressIsles.getInstance(), () -> {
-            if (wave == 2){
-                teamSpawnMob();
-                teamSpawnMob();
-                teamSpawnMob();
-            }
-            else if (wave == 3){
-                teamSpawnMob();
-                teamSpawnMob();
-                teamSpawnMob();
-                teamSpawnMob();
+            countWaveMob(wave);
 
-            }
-            else if (wave == 4){
-                teamSpawnMob();
-                teamSpawnMob();
-                teamSpawnMob();
-                teamSpawnMob();
-                teamSpawnMob();
-                teamSpawnMob();
-
+            if (wave >= 5){
+                for (Player player : Bukkit.getOnlinePlayers()) player.sendMessage("Вы прошли все волны");
+                return;
             }
             deley += 30;
             waveCount++;
-        },  20 * second);
+        },  20L * second);
+    }
+
+    private static void countWaveMob(int count){
+        for (int i = 1; i <= count; i++){
+            teamSpawnMob();
+        }
     }
 }

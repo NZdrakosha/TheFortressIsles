@@ -11,9 +11,8 @@ public class ItemUtil {
 
 
     public static boolean isPickaxe(ItemStack itemStack){
-        if (itemStack == null || itemStack.getType() == null){
-            return false;
-        }
+        if (itemStack == null || itemStack.getType() == null) return false;
+
         Material type = itemStack.getType();
         return
                 type == Material.STONE_PICKAXE ||
@@ -23,9 +22,8 @@ public class ItemUtil {
     }
 
     public static boolean isAxe(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == null) {
-            return false;
-        }
+        if (itemStack == null || itemStack.getType() == null) return false;
+
         Material type = itemStack.getType();
         return
                 type == Material.IRON_AXE ||
@@ -35,9 +33,8 @@ public class ItemUtil {
     }
 
     public static boolean isSword(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == null) {
-            return false;
-        }
+        if (itemStack == null || itemStack.getType() == null) return false;
+
         Material type = itemStack.getType();
         return
                 type == Material.STONE_SWORD ||
@@ -47,9 +44,8 @@ public class ItemUtil {
     }
 
     public static boolean isHelmet(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == null) {
-            return false;
-        }
+        if (itemStack == null || itemStack.getType() == null) return false;
+
         Material type = itemStack.getType();
         return type == Material.LEATHER_HELMET ||
                 type == Material.IRON_HELMET ||
@@ -58,9 +54,8 @@ public class ItemUtil {
     }
 
     public static boolean isChestplate(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == null) {
-            return false;
-        }
+        if (itemStack == null || itemStack.getType() == null) return false;
+
         Material type = itemStack.getType();
         return type == Material.LEATHER_CHESTPLATE ||
                 type == Material.IRON_CHESTPLATE ||
@@ -69,9 +64,8 @@ public class ItemUtil {
     }
 
     public static boolean isLeggings(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == null) {
-            return false;
-        }
+        if (itemStack == null || itemStack.getType() == null) return false;
+
         Material type = itemStack.getType();
         return type == Material.LEATHER_LEGGINGS ||
                 type == Material.IRON_LEGGINGS ||
@@ -80,9 +74,8 @@ public class ItemUtil {
     }
 
     public static boolean isBoots(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == null) {
-            return false;
-        }
+        if (itemStack == null || itemStack.getType() == null) return false;
+
         Material type = itemStack.getType();
         return type == Material.LEATHER_BOOTS ||
                 type == Material.IRON_BOOTS ||
@@ -91,17 +84,16 @@ public class ItemUtil {
     }
 
     public static boolean isConsumablesItem(ItemStack itemStack){
-        if (itemStack == null || itemStack.getType() == null) {
-        return false;
-    }
+        if (itemStack == null || itemStack.getType() == null) return false;
+
         Material type = itemStack.getType();
+
         return type == Material.STICK ||
                 type == Material.WOOD;
     }
+
     public static boolean isSellItem(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == null) {
-            return false;
-        }
+        if (itemStack == null || itemStack.getType() == null) return false;
 
         Material type = itemStack.getType();
 
@@ -114,13 +106,10 @@ public class ItemUtil {
                 (type == Material.INK_SACK && itemStack.getDurability() == 4);
     }
 
-
-
     public static int getAmountItem(CraftingInventory inventory){
         int amount = 0;
         for (ItemStack itemStack : inventory.getMatrix()){
             if (itemStack != null){
-
                 amount = itemStack.getAmount();
                 return amount;
             }
@@ -128,18 +117,10 @@ public class ItemUtil {
         return amount;
     }
     public static void craftPropertiesArrow(Player player, ItemStack item, CraftingInventory craftInventory, int index){
-        if (index == 0){
-            player.getInventory().setBoots(giveUnbreakableItem(item));
-        }
-        if (index == 1){
-            player.getInventory().setLeggings(giveUnbreakableItem(item));
-        }
-        if (index == 2){
-            player.getInventory().setChestplate(giveUnbreakableItem(item));
-        }
-        if (index == 3){
-            player.getInventory().setHelmet(giveUnbreakableItem(item));
-        }
+        if (index == 0) player.getInventory().setBoots(giveUnbreakableItem(item));
+        if (index == 1) player.getInventory().setLeggings(giveUnbreakableItem(item));
+        if (index == 2) player.getInventory().setChestplate(giveUnbreakableItem(item));
+        if (index == 3) player.getInventory().setHelmet(giveUnbreakableItem(item));
 
         ItemStack air = new ItemStack(Material.AIR);
 
@@ -157,9 +138,8 @@ public class ItemUtil {
     }
 
     public static boolean isProtectedItem(ItemStack itemStack){
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
-            return false;
-        }
+        if (itemStack == null || itemStack.getType() == Material.AIR) return false;
+
         Material type = itemStack.getType();
         return
                 type == Material.STONE_PICKAXE ||

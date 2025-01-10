@@ -15,7 +15,7 @@ import java.util.UUID;
 import static game.mine.Mine.teamColor;
 
 public class CreateEntity {
-    private static Map<String, ArmorStand> activeArmorStand = new HashMap<>();
+    public static Map<String, ArmorStand> activeArmorStand = new HashMap<>();
 
     public static ArrayList<UUID> villagerUpdate = new ArrayList<>();
     public static ArrayList<UUID> villagerSeller = new ArrayList<>();
@@ -42,36 +42,36 @@ public class CreateEntity {
         armorStand.setVisible(false);
         armorStand.setSilent(true);
 
-
         activeArmorStand.put(color, armorStand);
     }
 
-    public static void spawnNpcUpdate(){
+    public static void spawnNPC(String name) {
         World world = Bukkit.getWorlds().get(0);
+
         for (String color : teamColor) {
-            Villager villager = (Villager) world.spawnEntity(villagerSpawnLocationUpdate.get(color), EntityType.VILLAGER);
-            activeEntity.add(villager.getUniqueId());
-            villagerUpdate.add(villager.getUniqueId());
+            if (name.equalsIgnoreCase("продажа")) {
+                Villager sell = (Villager) world.spawnEntity(villagerSpawnLocationSeller.get(color), EntityType.VILLAGER);
+                activeEntity.add(sell.getUniqueId());
+                villagerSeller.add(sell.getUniqueId());
+                sell.setCustomName(name);
 
-            villager.setAI(false);
-            villager.setInvulnerable(true);
-            villager.setCustomNameVisible(true);
-            villager.setCustomName("Прокачка");
-            villager.setSilent(true);
-        }
-    }
-    public static void spawnNpcSeller(){
-        World world = Bukkit.getWorlds().get(0);
-        for (String color : teamColor){
-            Villager villager = (Villager) world.spawnEntity(villagerSpawnLocationSeller.get(color), EntityType.VILLAGER);
-            activeEntity.add(villager.getUniqueId());
-            villagerSeller.add(villager.getUniqueId());
+                sell.setAI(false);
+                sell.setInvulnerable(true);
+                sell.setCustomNameVisible(true);
+                sell.setSilent(true);
+            }
 
-            villager.setAI(false);
-            villager.setInvulnerable(true);
-            villager.setCustomNameVisible(true);
-            villager.setCustomName("Продажа");
-            villager.setSilent(true);
+            if (name.equalsIgnoreCase("прокачка")) {
+                Villager update = (Villager) world.spawnEntity(villagerSpawnLocationUpdate.get(color), EntityType.VILLAGER);
+                activeEntity.add(update.getUniqueId());
+                villagerUpdate.add(update.getUniqueId());
+                update.setCustomName(name);
+
+                update.setAI(false);
+                update.setInvulnerable(true);
+                update.setCustomNameVisible(true);
+                update.setSilent(true);
+            }
         }
     }
 }
