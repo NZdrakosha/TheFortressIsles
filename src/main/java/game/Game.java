@@ -86,10 +86,6 @@ public class Game {
                     item.getItemMeta().equals(glassList.get(colors).getItemMeta()) &&
                     !equippedTeam.get(colors)) {
 
-                if (item.getType() == glassList.get(colors).getType() &&
-                        item.getItemMeta().equals(glassList.get(colors).getItemMeta()) &&
-                        !equippedTeam.get(colors)) {
-
                     if (activeTeam.containsKey(player.getUniqueId())) {
                         String prevColor = activeTeam.get(player.getUniqueId());
                         colorTeamPlayer.remove(prevColor);
@@ -99,7 +95,6 @@ public class Game {
                     player.closeInventory();
                     selectTeamProperties(colors, player);
                     break;
-                }
             }
         }
     }
