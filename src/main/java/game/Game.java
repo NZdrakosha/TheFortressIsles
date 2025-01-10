@@ -111,7 +111,8 @@ public class Game {
 
         int count = 0;
         for (ItemStack itemStack : player.getInventory().getContents()) {
-            if (itemStack == null || itemStack.getType() == Material.AIR) continue;
+            if (itemStack == null ) continue;
+            if (itemStack.getType() == Material.AIR) continue;
 
 
             if (item.getType() == itemStack.getType()) count += itemStack.getAmount();
@@ -121,7 +122,8 @@ public class Game {
     public static void removeItemsFromInventory(Player player, ItemStack item, int amount) {
         int remaining = amount;
         for (ItemStack stack : player.getInventory().getContents()) {
-            if (stack != null && stack.getType() == item.getType()) {
+            if (stack != null) continue;
+            if (stack.getType() == item.getType()) {
                 int stackAmount = stack.getAmount();
 
                 if (stackAmount > remaining) {
