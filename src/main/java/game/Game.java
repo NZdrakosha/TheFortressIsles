@@ -122,7 +122,7 @@ public class Game {
     public static void removeItemsFromInventory(Player player, ItemStack item, int amount) {
         int remaining = amount;
         for (ItemStack stack : player.getInventory().getContents()) {
-            if (stack != null) continue;
+            if (stack == null) continue;
             if (stack.getType() == item.getType()) {
                 int stackAmount = stack.getAmount();
 
