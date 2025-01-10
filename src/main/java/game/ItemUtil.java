@@ -142,36 +142,16 @@ public class ItemUtil {
 
         Material type = itemStack.getType();
         return
-                type == Material.STONE_PICKAXE ||
-                        type == Material.IRON_PICKAXE ||
-                        type == Material.GOLD_PICKAXE ||
-                        type == Material.DIAMOND_PICKAXE ||
-                        type == Material.IRON_AXE ||
-                        type == Material.GOLD_AXE ||
-                        type == Material.DIAMOND_AXE ||
-                        type == Material.STONE_SWORD ||
-                        type == Material.IRON_SWORD ||
-                        type == Material.GOLD_SWORD ||
-                        type == Material.DIAMOND_SWORD ||
-                        type == Material.LEATHER_HELMET ||
-                        type == Material.IRON_HELMET ||
-                        type == Material.GOLD_HELMET ||
-                        type == Material.DIAMOND_HELMET ||
-                        type == Material.LEATHER_CHESTPLATE ||
-                        type == Material.IRON_CHESTPLATE ||
-                        type == Material.GOLD_CHESTPLATE ||
-                        type == Material.DIAMOND_CHESTPLATE ||
-                        type == Material.LEATHER_LEGGINGS ||
-                        type == Material.IRON_LEGGINGS ||
-                        type == Material.GOLD_LEGGINGS ||
-                        type == Material.DIAMOND_LEGGINGS ||
-                        type == Material.LEATHER_BOOTS ||
-                        type == Material.IRON_BOOTS ||
-                        type == Material.GOLD_BOOTS ||
+                   isBoots(itemStack) ||
+                        isSword(itemStack) ||
+                        isAxe(itemStack) ||
+                        isChestplate(itemStack) ||
+                        isHelmet(itemStack) ||
+                        isLeggings(itemStack) ||
+                        isPickaxe(itemStack) ||
                         type == Material.WOOD_PICKAXE ||
                         type == Material.WOOD_SWORD ||
-                        type == Material.STONE_AXE ||
-                        type == Material.DIAMOND_BOOTS;
+                        type == Material.STONE_AXE;
     }
 }
 
