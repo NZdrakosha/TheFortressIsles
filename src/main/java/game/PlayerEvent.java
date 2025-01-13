@@ -134,7 +134,7 @@ public class PlayerEvent implements Listener {
     }
 
     @EventHandler
-    public static void playerSelectTeam(InventoryClickEvent event) {
+    public void playerSelectTeam(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
         if (event.getView().getTitle().equalsIgnoreCase("Выбор команды")) {
             ItemStack currentItem = event.getCurrentItem();
