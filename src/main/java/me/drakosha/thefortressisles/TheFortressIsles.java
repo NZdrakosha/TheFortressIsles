@@ -1,40 +1,40 @@
 package me.drakosha.thefortressisles;
 
-import game.InitializationMap;
-import game.command.AdminCommand;
-import game.PlayerEvent;
-import game.command.AdminTabCompleter;
+import lombok.Getter;
+import me.drakosha.thefortressisles.game.GameManager;
+import me.drakosha.thefortressisles.game.player.PlayerEvent;
+import me.drakosha.thefortressisles.game.player.PlayerTabAndChatFilter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
-
+import java.io.File;
 
 public final class TheFortressIsles extends JavaPlugin {
-    private static  TheFortressIsles instance;
+    @Getter
+    private static TheFortressIsles instance;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        instance = this;
-        InitializationMap.init();
+        reloadConfigPlugin();
 
-        registerCommands();
+        instance = this;
+
         registerEvent();
     }
-    public static TheFortressIsles getInstance(){
-        return instance;
+
+    private void registerEvent() {
+        GameManager gameManager = new GameManager();
+        Bukkit.getPluginManager().registerEvents(new PlayerEvent(gameManager), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerTabAndChatFilter(), this);
+
     }
 
-    @Override
-    public void onDisable() {
-    }
+    private void reloadConfigPlugin() {
+        File configFile = new File(getDataFolder(), "config.yml");
+        if (configFile.exists()) configFile.delete();
 
-    private void registerCommands(){
-        getCommand("admin").setExecutor(new AdminCommand());
-        getCommand("admin").setTabCompleter(new AdminTabCompleter());
-    }
-    private void registerEvent(){
-        Bukkit.getPluginManager().registerEvents(new PlayerEvent(), this);
+        saveResource("config.yml", false);
+        reloadConfig();
     }
 }

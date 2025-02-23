@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/TheFortressIsles.main.iml" filepath="$PROJECT_DIR$/.idea/modules/TheFortressIsles.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/me.drakosha.TheFortressIsles.main.iml" filepath="$PROJECT_DIR$/.idea/modules/me.drakosha.TheFortressIsles.main.iml" />
     </modules>
   </component>
 </project>
