@@ -11,27 +11,28 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class Mine {
-    public ArrayList<Material> materialListBaseMine;
-    public ArrayList<Material> materialListSuperMine;
+    public List<Material> materialListBaseMine;
+    public List<Material> materialListSuperMine;
     private final Random random = new Random();
 
     public Mine() {
-        materialListBaseMine = new ArrayList<>();
-        materialListSuperMine = new ArrayList<>();
+              materialListBaseMine = new ArrayList<>(Arrays.asList(
+                Material.STONE,
+                Material.COAL_ORE,
+                Material.IRON_ORE,
+                Material.LOG,
+                Material.LAPIS_ORE,
+                Material.DIRT,
+                Material.REDSTONE_ORE
+        ));
 
-        materialListBaseMine.add(0, Material.STONE);
-        materialListBaseMine.add(1, Material.COAL_ORE);
-        materialListBaseMine.add(2, Material.IRON_ORE);
-        materialListBaseMine.add(3, Material.LOG);
-        materialListBaseMine.add(4, Material.LAPIS_ORE);
-        materialListBaseMine.add(5, Material.DIRT);
-        materialListBaseMine.add(6, Material.REDSTONE_ORE);
-
-        materialListSuperMine.add(0, Material.STONE);
-        materialListSuperMine.add(1, Material.GOLD_ORE);
-        materialListSuperMine.add(2, Material.EMERALD_ORE);
-        materialListSuperMine.add(3, Material.DIAMOND_ORE);
-        materialListSuperMine.add(4, Material.OBSIDIAN);
+        materialListSuperMine = new ArrayList<>(Arrays.asList(
+                Material.STONE,
+                Material.GOLD_ORE,
+                Material.EMERALD_ORE,
+                Material.DIAMOND_ORE,
+                Material.OBSIDIAN
+        ));
     }
 
     public void fillBaseMine(World world) {
